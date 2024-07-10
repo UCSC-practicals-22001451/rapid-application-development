@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="library.css" />
+    <title>Library Interface</title>
+    <script>
+      class Book {
+        constructor({ title, author }) {
+          this.title = title;
+          this.author = author;
+          this.borrowed = false;
+        }
+      }
+
+      class Library {
+        #books = [];
+
+        addBook(title, author) {
+          const book = new Book({ title, author });
+          this.#books.push(book);
+        }
+
+        removeBook(title) {
+          this.#books = this.#books.filter((b) => b.title !== title);
+        }
+
+        borrowBook(title) {
+          const foundBook = this.#books.find((b) => b.title === title);
+          if (foundBook) {
+            foundBook.borrowed = true;
+          }
+        }
+
+        returnBook(title) {
+          const foundBook = this.#books.find((b) => b.title === title);
+          if (foundBook) {
+            foundBook.borrowed = false;
+          }
+        }
+
+        findBook(title) {
+          return this.#books.find((b) => b.title === title) || "Book not found";
+        }
+      }
+
+      const myLibrary = new Library();
+
+      function borrowBook() {
+        const title = document.getElementById("bookTitle").value;
+        myLibrary.borrowBook(title);
+        alert(`Borrowed: ${title}`);
+      }
+
+      function returnBook() {
+        const title = document.getElementById("bookTitle").value;
+        myLibrary.returnBook(title);
+        alert(`Returned: ${title}`);
+      }
+    </script>
+  </head>
+  <body>
+    <h2>Library Interface</h2>
+    <input type="text" id="bookTitle" placeholder="Enter book title" />
+    <button onclick="borrowBook()">Borrow Book</button>
+    <button onclick="returnBook()">Return Book</button>
+  </body>
+</html>
